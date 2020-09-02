@@ -2,16 +2,26 @@ package colorcoder;
 
 public class ColorService {
 
-	 static ColorPair GetColorFromPairNumber(int pairNumber) {
+	 public static ColorPair GetColorFromPairNumber(int pairNumber) {
 	        int zeroBasedPairNumber = pairNumber - 1;
 	        MajorColor majorColor = 
-	            MajorColor.fromIndex(zeroBasedPairNumber / ColorPair.numberOfMinorColors);
+	            (MajorColor)fromIndex(MajorColor.values(), zeroBasedPairNumber / ColorPair.numberOfMinorColors);
 	        MinorColor minorColor =
-	            MinorColor.fromIndex(zeroBasedPairNumber % ColorPair.numberOfMinorColors);
+	            (MinorColor)fromIndex(MinorColor.values(), zeroBasedPairNumber % ColorPair.numberOfMinorColors);
 	        return new ColorPair(majorColor, minorColor);
 	    }
-	 static int GetPairNumberFromColor(MajorColor major, MinorColor minor) {
+	 public static int GetPairNumberFromColor(MajorColor major, MinorColor minor) {
 	        return major.getIndex() * ColorPair.numberOfMinorColors + minor.getIndex() + 1;
+	    }
+	 
+	 public static IColor fromIndex(Object[] colors, int index) {
+	        for(Object obj: colors) {
+	        	IColor color = (IColor)obj;
+	            if(color.getIndex() == index) {
+	                return color;
+	            }
+	        }
+	        return null;
 	    }
 	
 	 static String ToString() {
